@@ -1,9 +1,9 @@
 import React from "react";
-import styles from "./style.module.css";
+import "./styles.css";
 
-function Navigation(props) {
+function Navigation() {
   return (
-    <nav className={styles.nav}>
+    <nav>
       <p className="f3 link dim black pa3 pointer">Sign Out</p>
     </nav>
   );

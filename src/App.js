@@ -1,12 +1,13 @@
 import "./App.css";
-import Navigation from "./components/Navigation/index"
+import Navigation from "./components/Navigation/index";
+import Logo from "./components/Logo/index";
 
 function App() {
   return (
     <div>
       <Navigation />
-      {/* <Logo />
-      <ImageLinkForm />
+      <Logo />
+      {/* <ImageLinkForm />
       <FaceRecognition /> */}
     </div>
   );
