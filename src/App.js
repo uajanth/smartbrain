@@ -1,9 +1,13 @@
 import "./App.css";
+import Navigation from "./components/Navigation/index"
 
 function App() {
   return (
     <div>
-      <h1>Hello World</h1>
+      <Navigation />
+      {/* <Logo />
+      <ImageLinkForm />
+      <FaceRecognition /> */}
     </div>
   );
 }
