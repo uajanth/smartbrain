@@ -1,4 +1,6 @@
 import "./App.css";
+import { useState } from "react";
+import Clarifai from "clarifai";
 import Particles from "react-tsparticles";
 import { tsParticles } from "tsparticles-engine";
 import { loadFull } from "tsparticles";
@@ -6,22 +8,63 @@ import Navigation from "./components/Navigation/index";
 import Logo from "./components/Logo/index";
 import Rank from "./components/Rank/index";
 import ImageLinkForm from "./components/ImageLinkForm/index";
+import FaceRecognition from "./components/FaceRecognition/index";
+import AuthenticationForm from "./components/AuthenticationForm";
 
 function App() {
+  const [input, setInput] = useState();
+  const [imageUrl, setImageUrl] = useState();
+  const [box, setBox] = useState({});
+
+  const app = new Clarifai.App({
+    apiKey: "1d820886e1dd460791983686e7d9dabf",
+  });
+
+  const onInputChange = (event) => {
+    setInput(event.target.value);
+  };
+
+  const calculateFaceLocation = (data) => {
+    const clarifaiFace =
+      data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById("inputimage");
+    const width = Number(image.width);
+    const height = Number(image.height);
+    return {
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - clarifaiFace.right_col * width,
+      bottomRow: height - clarifaiFace.bottom_row * height,
+    };
+  };
+
+  const displayFaceBox = (box) => {
+    console.log(box);
+    setBox(box);
+  };
+
+  const onButtonSubmit = () => {
+    setImageUrl(input);
+    app.models
+      .predict(Clarifai.FACE_DETECT_MODEL, input)
+      .then(function (response) {
+        displayFaceBox(calculateFaceLocation(response));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const particlesInit = async (main) => {
-    console.log(main);
     await loadFull(tsParticles);
   };
 
-  const particlesLoaded = (container) => {
-    console.log(container);
-  };
   return (
     <div>
-      <Particles className="particles"
+      <Particles
+        className="particles"
         id="tsparticles"
         init={particlesInit}
-        loaded={particlesLoaded}
         options={{
           fps_limit: 60,
           interactivity: {
@@ -102,8 +145,11 @@ function App() {
       <Navigation />
       <Logo />
       <Rank />
-      <ImageLinkForm />
-      {/* <FaceRecognition /> */}
+      <ImageLinkForm
+        onInputChange={onInputChange}
+        onButtonSubmit={onButtonSubmit}
+      />
+      <FaceRecognition box={box} imageUrl={imageUrl} />
     </div>
   );
 }
