@@ -144,6 +144,7 @@ function App() {
       />
       <Navigation />
       <Logo />
+      <AuthenticationForm />
       <Rank />
       <ImageLinkForm
         onInputChange={onInputChange}
