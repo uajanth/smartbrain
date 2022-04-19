@@ -1,10 +1,13 @@
 import React from "react";
 
-function Rank() {
+function Rank(props) {
+  const { name, entries } = props;
   return (
     <div>
-      <div className="black f3">{"Ajanth, your current rank is"}</div>
-      <div className="black f1" style={{textAlign: "center"}}>{"#5"}</div>
+      <div className="black f3">{`${name}, your current entry count is...`}</div>
+      <div className="black f1" style={{ textAlign: "center" }}>
+        {entries}
+      </div>
     </div>
   );
 }

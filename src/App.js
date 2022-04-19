@@ -18,6 +18,27 @@ function App() {
   const [box, setBox] = useState({});
   const [route, setRoute] = useState("signin");
   const [isSignedIn, setIsSignedin] = useState(false);
+  const [user, setUser] = useState({
+    user: {
+      id: "",
+      name: "",
+      email: "",
+      entries: 0,
+      joined: "",
+    },
+  });
+
+  const loadUser = (data) => {
+    setUser({
+      user: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined,
+      },
+    });
+  };
 
   const app = new Clarifai.App({
     apiKey: "1d820886e1dd460791983686e7d9dabf",
@@ -45,11 +66,20 @@ function App() {
     setBox(box);
   };
 
-  const onButtonSubmit = () => {
+  const onImageDetect = () => {
     setImageUrl(input);
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, input)
       .then(function (response) {
+        if (response) {
+          fetch("http://localhost:3000/image", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(user.user),
+          })
+            .then((response) => response.json())
+            .then((user) => setUser({ user: user }));
+        }
         displayFaceBox(calculateFaceLocation(response));
       })
       .catch((err) => {
@@ -157,16 +187,16 @@ function App() {
       <Logo />
       {route === "register" && <Register onRouteChange={onRouteChange} />}
       {route === "signin" || route === "signout" ? (
-        <SignIn onRouteChange={onRouteChange} />
+        <SignIn onRouteChange={onRouteChange} loadUser={loadUser} />
       ) : (
         ""
       )}
       {route === "home" && (
         <React.Fragment>
-          <Rank />
+          <Rank name={user.user.name} entries={user.user.entries} />
           <ImageLinkForm
             onInputChange={onInputChange}
-            onButtonSubmit={onButtonSubmit}
+            onImageDetect={onImageDetect}
           />
           <FaceRecognition box={box} imageUrl={imageUrl} />
         </React.Fragment>

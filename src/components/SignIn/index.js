@@ -4,7 +4,7 @@ function SignIn(props) {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
 
-  const { onRouteChange } = props;
+  const { onRouteChange, loadUser } = props;
 
   const onEmailChange = (event) => {
     setSignInEmail(event.target.value);
@@ -24,8 +24,9 @@ function SignIn(props) {
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
-        if (data === "success") {
+      .then((user) => {
+        if (user.id) {
+          loadUser(user);
           onRouteChange("home");
         }
       });
