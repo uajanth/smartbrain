@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 function SignIn(props) {
-  const [signInEmail, setSignInEmail] = useState();
-  const [signInPassword, setSignInPassword] = useState();
+  const [signInEmail, setSignInEmail] = useState("");
+  const [signInPassword, setSignInPassword] = useState("");
 
   const { onRouteChange } = props;
 

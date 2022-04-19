@@ -1,7 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 
 function Register(props) {
+  const [registerName, setRegisterName] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+
   const { onRouteChange } = props;
+
+  const onNameChange = (event) => {
+    setRegisterName(event.target.value);
+  };
+
+  const onEmailChange = (event) => {
+    setRegisterEmail(event.target.value);
+  };
+
+  const onPasswordChange = (event) => {
+    setRegisterPassword(event.target.value);
+  };
+
+  const onRegister = () => {
+    fetch("http://localhost:3000/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: 3,
+        name: registerName,
+        email: registerEmail,
+        password: registerPassword,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+          onRouteChange("home");
+        }
+      });
+  };
+
   return (
     <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l shadow-5 center">
       <main className="pa2 black-80">
@@ -18,6 +54,7 @@ function Register(props) {
                 name="name"
                 id="name"
                 autoComplete="false"
+                onChange={onNameChange}
               />
             </div>
             <div className="mt3">
@@ -30,6 +67,7 @@ function Register(props) {
                 name="email-address"
                 id="email-address"
                 autoComplete="false"
+                onChange={onEmailChange}
               />
             </div>
             <div className="mv3">
@@ -42,12 +80,13 @@ function Register(props) {
                 name="password"
                 id="password"
                 autoComplete="false"
+                onChange={onPasswordChange}
               />
             </div>
           </fieldset>
           <div className="pb4 center">
             <input
-              onClick={() => onRouteChange("home")}
+              onClick={onRegister}
               className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
               type="submit"
               value="Sign Up"

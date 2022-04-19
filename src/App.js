@@ -58,10 +58,10 @@ function App() {
   };
 
   const onRouteChange = (route) => {
-    if (route === "signout"){
-      setIsSignedin(false)
+    if (route === "signout") {
+      setIsSignedin(false);
     } else if (route === "home") {
-      setIsSignedin(true)
+      setIsSignedin(true);
     }
     setRoute(route);
   };
@@ -155,8 +155,12 @@ function App() {
       />
       <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
       <Logo />
-      {route === "register" && <Register />}
-      {route === "signin" || route === "signout" ? <SignIn onRouteChange={onRouteChange} /> : ""}
+      {route === "register" && <Register onRouteChange={onRouteChange} />}
+      {route === "signin" || route === "signout" ? (
+        <SignIn onRouteChange={onRouteChange} />
+      ) : (
+        ""
+      )}
       {route === "home" && (
         <React.Fragment>
           <Rank />
