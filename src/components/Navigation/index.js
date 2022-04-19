@@ -2,28 +2,29 @@ import React from "react";
 import "./styles.css";
 
 function Navigation(props) {
-  if (props.isSignedIn) {
+  const { isSignedIn, onRouteChange } = props;
+  if (isSignedIn) {
     return (
       <nav>
         <p
-          onClick={() => props.onRouteChange("signout")}
+          onClick={() => onRouteChange("signout")}
           className="f3 link dim black pa3 pointer"
         >
           Sign Out
         </p>
       </nav>
     );
-  } else if (!props.isSignedIn) {
+  } else if (!isSignedIn) {
     return (
       <nav>
         <p
-          onClick={() => props.onRouteChange("signin")}
+          onClick={() => onRouteChange("signin")}
           className="f3 link dim black pa3 pointer"
         >
           Sign In
         </p>
         <p
-          onClick={() => props.onRouteChange("register")}
+          onClick={() => onRouteChange("register")}
           className="f3 link dim black pa3 pointer"
         >
           Register

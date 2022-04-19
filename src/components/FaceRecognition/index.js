@@ -2,13 +2,13 @@ import React from "react";
 import "./styles.css";
 
 function FaceRecognition(props) {
-  const { box } = props;
+  const { box, imageUrl } = props;
   return (
     <div className="center ma">
       <div className="absolute mt2">
         <img
           id="inputimage"
-          src={props.imageUrl}
+          src={imageUrl}
           alt={""}
           width={500}
           height="auto"
