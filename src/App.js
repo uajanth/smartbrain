@@ -13,8 +13,8 @@ import SignIn from "./components/SignIn";
 import Register from "./components/Register";
 
 function App() {
-  const [input, setInput] = useState();
-  const [imageUrl, setImageUrl] = useState();
+  const [input, setInput] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [box, setBox] = useState({});
   const [route, setRoute] = useState("signin");
   const [isSignedIn, setIsSignedin] = useState(false);
@@ -27,6 +27,23 @@ function App() {
       joined: "",
     },
   });
+
+  const resetState = () => {
+    setInput("");
+    setImageUrl("");
+    setBox("");
+    setRoute("signin");
+    setIsSignedin(false);
+    setUser({
+      user: {
+        id: "",
+        name: "",
+        email: "",
+        entries: 0,
+        joined: "",
+      },
+    });
+  };
 
   const loadUser = (data) => {
     setUser({
@@ -78,18 +95,22 @@ function App() {
             body: JSON.stringify(user.user),
           })
             .then((response) => response.json())
-            .then((user) => setUser({ user: user }));
+            .then((user) => setUser({ user: user }))
+            .catch((err) => console.log(err));
         }
         displayFaceBox(calculateFaceLocation(response));
       })
       .catch((err) => {
         console.log(err);
       });
+
+    setUser((prevState) => prevState);
   };
 
   const onRouteChange = (route) => {
     if (route === "signout") {
       setIsSignedin(false);
+      resetState();
     } else if (route === "home") {
       setIsSignedin(true);
     }
@@ -185,7 +206,9 @@ function App() {
       />
       <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
       <Logo />
-      {route === "register" && <Register onRouteChange={onRouteChange} />}
+      {route === "register" && (
+        <Register onRouteChange={onRouteChange} loadUser={loadUser} />
+      )}
       {route === "signin" || route === "signout" ? (
         <SignIn onRouteChange={onRouteChange} loadUser={loadUser} />
       ) : (

@@ -5,7 +5,7 @@ function Register(props) {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
 
-  const { onRouteChange } = props;
+  const { onRouteChange, loadUser } = props;
 
   const onNameChange = (event) => {
     setRegisterName(event.target.value);
@@ -34,6 +34,7 @@ function Register(props) {
       .then((data) => {
         if (data) {
           onRouteChange("home");
+          loadUser(data)
         }
       });
   };
