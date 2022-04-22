@@ -1,6 +1,5 @@
 import "./App.css";
 import React, { useState } from "react";
-import Clarifai from "clarifai";
 import Particles from "react-tsparticles";
 import { tsParticles } from "tsparticles-engine";
 import { loadFull } from "tsparticles";
@@ -57,10 +56,6 @@ function App() {
     });
   };
 
-  const app = new Clarifai.App({
-    apiKey: "1d820886e1dd460791983686e7d9dabf",
-  });
-
   const onInputChange = (event) => {
     setInput(event.target.value);
   };
@@ -85,8 +80,12 @@ function App() {
 
   const onImageDetect = () => {
     setImageUrl(input);
-    app.models
-      .predict(Clarifai.FACE_DETECT_MODEL, input)
+    fetch("http://localhost:3000/imageurl", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input }),
+    })
+      .then((response) => response.json())
       .then(function (response) {
         if (response) {
           fetch("http://localhost:3000/image", {

@@ -31,10 +31,10 @@ function Register(props) {
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
-        if (data) {
+      .then((user) => {
+        if (user.id) {
+          loadUser(user);
           onRouteChange("home");
-          loadUser(data)
         }
       });
   };
