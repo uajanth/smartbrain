@@ -20,11 +20,10 @@ function Register(props) {
   };
 
   const onRegister = () => {
-    fetch("http://localhost:3000/register", {
+    fetch("https://uajanth-smartbrain-api.herokuapp.com/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        id: 3,
         name: registerName,
         email: registerEmail,
         password: registerPassword,
