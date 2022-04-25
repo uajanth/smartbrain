@@ -80,7 +80,7 @@ function App() {
 
   const onImageDetect = () => {
     setImageUrl(input);
-    fetch("http://uajanth-smartbrain-api.herokuapp.com/imageurl", {
+    fetch("https://uajanth-smartbrain-api.herokuapp.com/imageurl", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ input }),
@@ -88,7 +88,7 @@ function App() {
       .then((response) => response.json())
       .then(function (response) {
         if (response) {
-          fetch("http://uajanth-smartbrain-api.herokuapp.com/image", {
+          fetch("https://uajanth-smartbrain-api.herokuapp.com/image", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(user.user),
