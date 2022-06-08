@@ -67,7 +67,7 @@ function App() {
 
     const clarifaiFaces = data.outputs[0].data.regions;
 
-    clarifaiFaces.map((face) => {
+    return clarifaiFaces.map((face) => {
       const clarifaiFace = face.region_info.bounding_box;
       return {
         leftCol: clarifaiFace.left_col * width,
