@@ -79,6 +79,7 @@ function App() {
   };
 
   const displayFaceBox = (boxes) => {
+    console.log(boxes)
     setBoxes(boxes);
   };
 
